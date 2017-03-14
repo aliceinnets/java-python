@@ -9,20 +9,20 @@ public class PythonFunction {
 	
 	String desc;
 	
-	String parameterDesc;
+	String allParameterDescs;
 	String[] parameterNames;
 	Class<?> parameterTypes;
-	String[] parameterDescs;
+	String[] parameterDesc;
 	
-	String returnDesc;
+	String allReturnDescs;
 	String[] returnNames;
 	Class<?> returnTypes;
-	String[] returnDescs;
+	String[] returnDesc;
 	
-	String otherParameterDesc;
+	String allOtherParameterDescs;
 	String[] otherParameterNames;
 	Class<?> otherParameterTypes;
-	String[] otherParameterDescs;
+	String[] otherParameterDesc;
 	
 	String note;
 	
@@ -62,6 +62,26 @@ public class PythonFunction {
 	}
 
 
+	public String getDesc() {
+		return desc;
+	}
+
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+
+	public String getAllParameterDescs() {
+		return allParameterDescs;
+	}
+
+
+	public void setAllParameterDescs(String allParameterDescs) {
+		this.allParameterDescs = allParameterDescs;
+	}
+
+
 	public String[] getParameterNames() {
 		return parameterNames;
 	}
@@ -69,6 +89,116 @@ public class PythonFunction {
 
 	public void setParameterNames(String[] parameterNames) {
 		this.parameterNames = parameterNames;
+	}
+
+
+	public Class<?> getParameterTypes() {
+		return parameterTypes;
+	}
+
+
+	public void setParameterTypes(Class<?> parameterTypes) {
+		this.parameterTypes = parameterTypes;
+	}
+
+
+	public String[] getParameterDesc() {
+		return parameterDesc;
+	}
+
+
+	public void setParameterDesc(String[] parameterDesc) {
+		this.parameterDesc = parameterDesc;
+	}
+
+
+	public String getAllReturnDescs() {
+		return allReturnDescs;
+	}
+
+
+	public void setAllReturnDescs(String allReturnDescs) {
+		this.allReturnDescs = allReturnDescs;
+	}
+
+
+	public String[] getReturnNames() {
+		return returnNames;
+	}
+
+
+	public void setReturnNames(String[] returnNames) {
+		this.returnNames = returnNames;
+	}
+
+
+	public Class<?> getReturnTypes() {
+		return returnTypes;
+	}
+
+
+	public void setReturnTypes(Class<?> returnTypes) {
+		this.returnTypes = returnTypes;
+	}
+
+
+	public String[] getReturnDesc() {
+		return returnDesc;
+	}
+
+
+	public void setReturnDesc(String[] returnDesc) {
+		this.returnDesc = returnDesc;
+	}
+
+
+	public String getAllOtherParameterDescs() {
+		return allOtherParameterDescs;
+	}
+
+
+	public void setAllOtherParameterDescs(String allOtherParameterDescs) {
+		this.allOtherParameterDescs = allOtherParameterDescs;
+	}
+
+
+	public String[] getOtherParameterNames() {
+		return otherParameterNames;
+	}
+
+
+	public void setOtherParameterNames(String[] otherParameterNames) {
+		this.otherParameterNames = otherParameterNames;
+	}
+
+
+	public Class<?> getOtherParameterTypes() {
+		return otherParameterTypes;
+	}
+
+
+	public void setOtherParameterTypes(Class<?> otherParameterTypes) {
+		this.otherParameterTypes = otherParameterTypes;
+	}
+
+
+	public String[] getOtherParameterDesc() {
+		return otherParameterDesc;
+	}
+
+
+	public void setOtherParameterDesc(String[] otherParameterDesc) {
+		this.otherParameterDesc = otherParameterDesc;
+	}
+
+
+	public String getNote() {
+		return note;
+	}
+
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 }
