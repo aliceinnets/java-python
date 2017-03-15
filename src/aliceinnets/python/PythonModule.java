@@ -21,6 +21,11 @@ public class PythonModule {
 	}
 	
 	
+	public PythonModule(String pathname) {
+		this(pathname, null);
+	}
+	
+	
 	public PythonModule(String pathname, String script) {
 		if(pathname != null && !pathname.equals("")) {
 			this.pathname = pathname;
@@ -43,9 +48,16 @@ public class PythonModule {
 	}
 	
 	
+	public void saveAndExec() throws IOException {
+		save();
+		PythonScript.exec(pathname);
+	}
+	
+	
 	public void exec() throws IOException {
 		save();
 		PythonScript.exec(pathname);
+		new File(pathname).delete();
 	}
 	
 	
@@ -59,6 +71,28 @@ public class PythonModule {
 	public PythonModule write(String script) {
 		this.script.append(script);
 		return this;
+	}
+
+
+	public String getPathname() {
+		return pathname;
+	}
+
+
+	public void setPathname(String pathname) {
+		this.pathname = pathname;
+	}
+
+
+	public String getScript() {
+		return script.toString();
+	}
+
+
+	public void setScript(String script) {
+		if(script != null) {
+			this.script.append(script);
+		}
 	}
 	
 

@@ -47,6 +47,8 @@ public class Parser {
 				}
 			} else if(obj instanceof String) {
 				/**
+				 * Python 2.7.13
+				 * 
 				 * stringliteral   ::=  [stringprefix](shortstring | longstring)
 				 * stringprefix    ::=  "r" | "u" | "ur" | "R" | "U" | "UR" | "Ur" | "uR"
 				 *                      | "b" | "B" | "br" | "Br" | "bR" | "BR"
@@ -59,10 +61,25 @@ public class Parser {
 				 * longstringchar  ::=  <any source character except "\">
 				 * escapeseq       ::=  "\" <any ASCII character>
 				 * 
+				 * Python 3.6.rc1
+				 * 
+				 * stringliteral   ::=  [stringprefix](shortstring | longstring)
+				 * stringprefix    ::=  "r" | "u" | "R" | "U" | "f" | "F"
+				 *                      | "fr" | "Fr" | "fR" | "FR" | "rf" | "rF" | "Rf" | "RF"
+				 * shortstring     ::=  "'" shortstringitem* "'" | '"' shortstringitem* '"'
+				 * longstring      ::=  "'''" longstringitem* "'''" | '"""' longstringitem* '"""'
+				 * shortstringitem ::=  shortstringchar | stringescapeseq
+				 * longstringitem  ::=  longstringchar | stringescapeseq
+				 * shortstringchar ::=  <any source character except "\" or newline or the quote>
+				 * longstringchar  ::=  <any source character except "\">
+				 * stringescapeseq ::=  "\" <any source character>
+				 * 
 				 */
 				String string = ((String) obj).toLowerCase();
-				boolean prefixSingle = string.startsWith("r") || string.startsWith("u") || string.startsWith("b");
-				boolean prefixDouble = string.startsWith("ur") || string.startsWith("br");
+//				boolean prefixSingle = string.startsWith("r") || string.startsWith("u") || string.startsWith("b");
+//				boolean prefixDouble = string.startsWith("ur") || string.startsWith("br");
+				boolean prefixSingle = string.startsWith("r") || string.startsWith("u") || string.startsWith("f");
+				boolean prefixDouble = string.startsWith("fr") || string.startsWith("rf");
 				if(prefixSingle) {
 					string = string.substring(1);
 				} else if(prefixDouble) {

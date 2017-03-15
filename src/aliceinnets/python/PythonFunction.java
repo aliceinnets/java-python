@@ -6,24 +6,26 @@ public class PythonFunction {
 	
 	String className;
 	String name;
+	String[] parameterNames;
 	
 	String desc;
 	
 	String allParameterDescs;
-	String[] parameterNames;
-	Class<?> parameterTypes;
-	String[] parameterDesc;
+	String[] parameterDocNames;
+	String[] parameterTypes;
+	String[] parameterDescs;
 	
 	String allReturnDescs;
 	String[] returnNames;
-	Class<?> returnTypes;
-	String[] returnDesc;
+	String[] returnTypes;
+	String[] returnDescs;
 	
 	String allOtherParameterDescs;
 	String[] otherParameterNames;
-	Class<?> otherParameterTypes;
-	String[] otherParameterDesc;
+	String[] otherParameterTypes;
+	String[] otherParameterDescs;
 	
+	String seeAlso;
 	String note;
 	
 	
@@ -62,6 +64,16 @@ public class PythonFunction {
 	}
 
 
+	public String[] getParameterNames() {
+		return parameterNames;
+	}
+
+
+	public void setParameterNames(String[] parameterNames) {
+		this.parameterNames = parameterNames;
+	}
+
+
 	public String getDesc() {
 		return desc;
 	}
@@ -82,33 +94,33 @@ public class PythonFunction {
 	}
 
 
-	public String[] getParameterNames() {
-		return parameterNames;
+	public String[] getParameterDocNames() {
+		return parameterDocNames;
 	}
 
 
-	public void setParameterNames(String[] parameterNames) {
-		this.parameterNames = parameterNames;
+	public void setParameterDocNames(String[] parameterDocNames) {
+		this.parameterDocNames = parameterDocNames;
 	}
 
 
-	public Class<?> getParameterTypes() {
+	public String[] getParameterTypes() {
 		return parameterTypes;
 	}
 
 
-	public void setParameterTypes(Class<?> parameterTypes) {
+	public void setParameterTypes(String[] parameterTypes) {
 		this.parameterTypes = parameterTypes;
 	}
 
 
-	public String[] getParameterDesc() {
-		return parameterDesc;
+	public String[] getParameterDescs() {
+		return parameterDescs;
 	}
 
 
-	public void setParameterDesc(String[] parameterDesc) {
-		this.parameterDesc = parameterDesc;
+	public void setParameterDescs(String[] parameterDescs) {
+		this.parameterDescs = parameterDescs;
 	}
 
 
@@ -132,23 +144,23 @@ public class PythonFunction {
 	}
 
 
-	public Class<?> getReturnTypes() {
+	public String[] getReturnTypes() {
 		return returnTypes;
 	}
 
 
-	public void setReturnTypes(Class<?> returnTypes) {
+	public void setReturnTypes(String[] returnTypes) {
 		this.returnTypes = returnTypes;
 	}
 
 
-	public String[] getReturnDesc() {
-		return returnDesc;
+	public String[] getReturnDescs() {
+		return returnDescs;
 	}
 
 
-	public void setReturnDesc(String[] returnDesc) {
-		this.returnDesc = returnDesc;
+	public void setReturnDescs(String[] returnDescs) {
+		this.returnDescs = returnDescs;
 	}
 
 
@@ -172,23 +184,23 @@ public class PythonFunction {
 	}
 
 
-	public Class<?> getOtherParameterTypes() {
+	public String[] getOtherParameterTypes() {
 		return otherParameterTypes;
 	}
 
 
-	public void setOtherParameterTypes(Class<?> otherParameterTypes) {
+	public void setOtherParameterTypes(String[] otherParameterTypes) {
 		this.otherParameterTypes = otherParameterTypes;
 	}
 
 
-	public String[] getOtherParameterDesc() {
-		return otherParameterDesc;
+	public String[] getOtherParameterDescs() {
+		return otherParameterDescs;
 	}
 
 
-	public void setOtherParameterDesc(String[] otherParameterDesc) {
-		this.otherParameterDesc = otherParameterDesc;
+	public void setOtherParameterDescs(String[] otherParameterDescs) {
+		this.otherParameterDescs = otherParameterDescs;
 	}
 
 
@@ -200,5 +212,14 @@ public class PythonFunction {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
+
+
+	public String getSeeAlso() {
+		return seeAlso;
+	}
+
+
+	public void setSeeAlso(String seeAlso) {
+		this.seeAlso = seeAlso;
+	}
 }
