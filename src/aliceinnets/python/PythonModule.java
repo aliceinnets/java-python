@@ -26,14 +26,14 @@ public class PythonModule {
 	}
 	
 	
-	public PythonModule(String pathname, String script) {
+	public PythonModule(String pathname, String header) {
 		if(pathname != null && !pathname.equals("")) {
 			this.pathname = pathname;
 		}
 		
 		init();
-		if(script != null) {
-			this.script.append(script);
+		if(header != null) {
+			this.script.append(header);
 		} 
 		
 	}
