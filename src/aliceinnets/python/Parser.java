@@ -5,27 +5,27 @@ import java.lang.reflect.Array;
 public class Parser {
 	
 	
-	public final static String toNumpyArgs(Object obj) {
+	public final static String toPythonArgs(Object obj) {
 		if(obj.getClass().isArray()) {
 			Class<?> componentType = obj.getClass().getComponentType();
 			if(!componentType.equals(Object.class)) {
-				return toNumpyExpression(obj);
+				return toPythonExpression(obj);
 			} else {
 				StringBuffer buffer = new StringBuffer();
 				for(int i=0;i<Array.getLength(obj)-1;++i) {
-					buffer.append(toNumpyExpression(Array.get(obj, i)));
+					buffer.append(toPythonExpression(Array.get(obj, i)));
 					buffer.append(", ");
 				}
-				buffer.append(toNumpyExpression(Array.get(obj, Array.getLength(obj)-1)));
+				buffer.append(toPythonExpression(Array.get(obj, Array.getLength(obj)-1)));
 				return buffer.toString(); 
 			}
 		} else {
-			return toNumpyExpression(obj);
+			return toPythonExpression(obj);
 		}
 	}
 	
 	
-	public final static String toNumpyExpression(Object obj) {
+	public final static String toPythonExpression(Object obj) {
 		if(obj == null) {
 			return "";
 		} else if(!obj.getClass().isArray()) {
@@ -106,26 +106,13 @@ public class Parser {
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("[");
 			for(int i=0;i<Array.getLength(obj)-1;++i) {
-				buffer.append(toNumpyExpression(Array.get(obj, i)));
+				buffer.append(toPythonExpression(Array.get(obj, i)));
 				buffer.append(", ");
 			}
-			buffer.append(toNumpyExpression(Array.get(obj, Array.getLength(obj)-1)));
+			buffer.append(toPythonExpression(Array.get(obj, Array.getLength(obj)-1)));
 			buffer.append("]");
 			return buffer.toString();
 		}
-	}
-	
-
-	public final static String toParameterName(String pythonParam) {
-		if(pythonParam.matches("\\*\\*.+")) {
-			return pythonParam.substring(2);
-		} else if(pythonParam.matches("\\*.+")) {
-			return pythonParam.substring(1);
-		} else if(pythonParam.contains("=")){
-			return pythonParam.split("\\=")[0];
-		} else {
-			return pythonParam;
-		}
-	}
+	}	
 
 }
