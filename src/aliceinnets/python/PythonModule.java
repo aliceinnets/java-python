@@ -63,13 +63,22 @@ public class PythonModule {
 	
 	public void init() {
 		this.script = new StringBuffer(HEADER);
-		this.script.append(COMMENT+"generated at "+System.nanoTime()+"\n");
+		write(COMMENT+"generated at "+System.nanoTime());
 		
 	}
 	
 	
 	public PythonModule write(String script) {
 		this.script.append(script);
+		this.script.append("\n");
+		return this;
+	}
+	
+	
+	public PythonModule write(String... scripts) {
+		for(String script : scripts) {
+			write(script);
+		}
 		return this;
 	}
 
