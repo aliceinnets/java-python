@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import aliceinnets.util.OneLiners;
 
+/**
+ * TODO list
+ * i) python variable
+ * ii) add array handling (basically numpy)
+ * 
+ * @author alice
+ *
+ */
 public class PythonModule {
 	
 	public final static String COMMENT = "#";
@@ -39,25 +47,37 @@ public class PythonModule {
 	}
 	
 	
-	public void save() throws FileNotFoundException {
+	public void save() {
 		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
 		OneLiners.mkdirs(path);
-		PrintWriter out = new PrintWriter(new File(pathname));
-		out.write(script.toString());
-		out.close();
+		try {
+			PrintWriter out = new PrintWriter(new File(pathname));
+			out.write(script.toString());
+			out.close();
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	
-	public void saveAndExec() throws IOException {
-		save();
-		PythonScript.exec(pathname);
+	public void saveAndExec() {
+		try {
+			save();
+			PythonScript.exec(pathname);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	
-	public void exec() throws IOException {
-		save();
-		PythonScript.exec(pathname);
-		new File(pathname).delete();
+	public void exec() {
+		try {
+			save();
+			PythonScript.exec(pathname);
+			new File(pathname).delete();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	
@@ -95,13 +115,6 @@ public class PythonModule {
 
 	public String getScript() {
 		return script.toString();
-	}
-
-
-	public void setScript(String script) {
-		if(script != null) {
-			this.script.append(script);
-		}
 	}
 	
 
