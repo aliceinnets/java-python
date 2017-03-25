@@ -11,7 +11,7 @@ import aliceinnets.util.OneLiners;
  * i) python variable
  * ii) add array handling (basically numpy)
  * 
- * @author alice
+ * @author alice&lt;aliceinnets@gmail.com&gt;
  *
  */
 public class PythonModule {
