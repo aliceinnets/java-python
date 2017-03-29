@@ -29,7 +29,13 @@ public class Parser {
 		if(obj == null) {
 			return "";
 		} else if(!obj.getClass().isArray()) {
-			if(obj instanceof Double) {
+			if(obj instanceof Boolean) {
+				if((boolean) obj) {
+					return "True";
+				} else {
+					return "False";
+				}
+			} else if(obj instanceof Double) {
 				if(obj.equals(Double.NaN)) {
 					return "np.NaN";
 				} else if(obj.equals(Double.NEGATIVE_INFINITY)) {
