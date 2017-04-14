@@ -3,10 +3,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import aliceinnets.python.PythonScript;
 import junit.framework.TestCase;
 
-public class TestPythonScript extends TestCase {
+public class Test extends TestCase {
 	
 	public void testPythonScript() throws IOException {
 		StringBuffer buffer = new StringBuffer();
@@ -20,13 +19,19 @@ public class TestPythonScript extends TestCase {
 		buffer.append("plt.plot(x, y)\n");
 //		buffer.append("plt.show()\n");
 		
-		String pathname = "test"+File.separator+TestPythonScript.class.getPackage().getName().replace(".", File.separator)+File.separator+"test.py";
+		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test.py";
 		PrintWriter out = new PrintWriter(pathname);
 		out.write(buffer.toString());
 		out.close();
 		
-		PythonScript.exec(pathname);
+		PythonScript.exec(pathname, "python", true);
 		
+	}
+	
+	public void testPythonModule() {
+		PythonModule module = new PythonModule();
+		module.write("print('hello, world')");
+		module.exec();
 	}
 
 }

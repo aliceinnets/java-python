@@ -26,6 +26,11 @@ public class PythonScript {
 	}
 	
 	
+	public final static boolean exec(String pathname, String python, boolean print) throws IOException {
+		return exec(pathname, python, print, false);
+	}
+	
+	
 	public final static boolean exec(String pathname, String python, boolean print, boolean saveLog) throws IOException {
 		StringBuffer log = new StringBuffer();
 		log.append(LOG_HEADER);
@@ -52,6 +57,7 @@ public class PythonScript {
 		
 		process.destroy();
 //		System.exit(0);
+		log.append("\n");
 		log.append(COMMENT+"Python ends at "+System.nanoTime()+"\n");
 		
 		if(saveLog) {

@@ -22,6 +22,8 @@ public class PythonModule {
 	
 	protected String pathname;
 	protected StringBuffer script;
+	protected String python = "python";
+	protected boolean print = true;
 	
 	
 	public PythonModule() {
@@ -63,7 +65,7 @@ public class PythonModule {
 	public void saveAndExec() {
 		try {
 			save();
-			PythonScript.exec(pathname);
+			PythonScript.exec(pathname, python, print);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -71,13 +73,8 @@ public class PythonModule {
 	
 	
 	public void exec() {
-		try {
-			save();
-			PythonScript.exec(pathname);
-			new File(pathname).delete();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		saveAndExec();
+		new File(pathname).delete();
 	}
 	
 	
