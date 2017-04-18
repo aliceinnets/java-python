@@ -10,6 +10,8 @@ import aliceinnets.util.OneLiners;
  * TODO list
  * i) python variable
  * ii) add array handling (basically numpy)
+ * iii) reference system and lazy evaluation
+ * 		.assign(String referenceName)
  * 
  * @author alice &lt;aliceinnets[at]gmail.com&gt;
  *
