@@ -22,6 +22,12 @@ public class Test extends TestCase {
 		
 		PythonScriptUtil.exec(pathname, true);
 		
+		PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
+		
+		PythonScriptUtil.exec(pathname, true);
+		
+		new File(PythonScriptUtil.DEFAULT_PATH).delete();
+		
 	}
 	
 	public void testPythonModule() {
