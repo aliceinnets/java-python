@@ -1,11 +1,6 @@
 package aliceinnets.python;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.regex.Pattern;
 
 import aliceinnets.util.OneLiners;
@@ -21,25 +16,14 @@ public class PythonScriptUtil {
 	
 	
 	public final static void setPythonPath(String pythonPath) {
-		try {
-			PrintWriter out = new PrintWriter(PYTHON_PATH_FILE);
-			out.write(pythonPath);
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		OneLiners.mkdirs(DEFAULT_PATH);
+		OneLiners.write(pythonPath, PYTHON_PATH_FILE);
 	}
 	
 	
 	public final static String getPythonPath() {
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(PYTHON_PATH_FILE));
-			String python = in.readLine();
-			in.close();
-			return python;
-		} catch (IOException e) {
-			return "python";
-		}
+		String python = OneLiners.read(PYTHON_PATH_FILE);
+		return python == null ? "python" : python; 
 	}
 	
 	
