@@ -1,17 +1,21 @@
 package aliceinnets.python;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import aliceinnets.util.OneLiners;
 
 /**
- * TODO list
- * i) python variable
- * ii) add array handling (basically numpy)
- * iii) reference system and lazy evaluation
- * 		.assign(String referenceName)
+ * 
+ * TODO Refer methods using lambda expressions. 
+ * When exec() called methods will be evaluated
+ * and the python script contains values of methods.
+ * 
+ * ex) pythonModule.write(PythonScript.format("plt.plot(%s, 'label'=%s)", object::eval, object::toString));
+ * 
+ * TODO Evaluate python variables.
+ * 
+ * ex) pythonModule.write("a = np.linspace(0, 10, 100)");
+ * pythonModule.get("a");
+ * 
  * 
  * @author alice &lt;aliceinnets[at]gmail.com&gt;
  *
@@ -19,17 +23,16 @@ import aliceinnets.util.OneLiners;
 public class PythonModule {
 	
 	public final static String COMMENT = "#";
-	public final static String HEADER = COMMENT + "Auto generated python script\n";
+	public final static String DEFAULT_HEADER = COMMENT + "Auto generated python script\n";
 	
 	
 	protected String pathname;
 	protected StringBuffer script;
-	protected String python = "python";
 	protected boolean print = true;
 	
 	
 	public PythonModule() {
-		this(PythonScript.DEFAULT_PATH+System.nanoTime()+".py", null);
+		this(PythonScriptUtil.DEFAULT_PATH+System.nanoTime()+".py", null);
 	}
 	
 	
@@ -43,34 +46,32 @@ public class PythonModule {
 			this.pathname = pathname;
 		}
 		
-		init();
-		if(header != null) {
-			this.script.append(header);
-		} 
+		this.script = new StringBuffer(DEFAULT_HEADER);
+		write(COMMENT+"generated at "+System.nanoTime());
+		if(header != null && !header.equals("")) {
+			this.script.append(COMMENT+header);
+		}
 		
+		write();
+		init();
+	}
+	
+	
+	public static void setPythonPath(String pythonPath) {
+		PythonScriptUtil.setPythonPath(pythonPath);
 	}
 	
 	
 	public void save() {
 		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
 		OneLiners.mkdirs(path);
-		try {
-			PrintWriter out = new PrintWriter(new File(pathname));
-			out.write(script.toString());
-			out.close();
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+		OneLiners.write(script.toString(), pathname);
 	}
 	
 	
 	public void saveAndExec() {
-		try {
-			save();
-			PythonScript.exec(pathname, python, print);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		save();
+		PythonScriptUtil.exec(pathname, print);
 	}
 	
 	
@@ -81,9 +82,14 @@ public class PythonModule {
 	
 	
 	public void init() {
-		this.script = new StringBuffer(HEADER);
-		write(COMMENT+"generated at "+System.nanoTime());
-		
+		script.append("import numpy as np\n");
+		script.append("import matplotlib.pyplot as plt\n");
+	}
+	
+	
+	public PythonModule write() {
+		this.script.append("\n");
+		return this;
 	}
 	
 	
