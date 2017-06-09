@@ -20,13 +20,14 @@ public class Test extends TestCase {
 		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test.py";
 		OneLiners.write(buffer.toString(), pathname);
 		
+		OneLiners.rmdirs(PythonScriptUtil.DEFAULT_PATH);
 		PythonScriptUtil.exec(pathname, true);
 		
-		PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
+//		PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
+//		PythonScriptUtil.exec(pathname, true);
 		
-		PythonScriptUtil.exec(pathname, true);
+		OneLiners.rmdirs(PythonScriptUtil.DEFAULT_PATH);
 		
-		new File(PythonScriptUtil.DEFAULT_PATH).delete();
 		
 	}
 	
