@@ -1,13 +1,11 @@
 package aliceinnets.python;
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
+import aliceinnets.util.OneLiners;
 import junit.framework.TestCase;
 
 public class Test extends TestCase {
 	
-	public void testPythonScript() throws IOException {
+	public void testPythonScript() {
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append("import numpy as np\n");
@@ -20,11 +18,9 @@ public class Test extends TestCase {
 //		buffer.append("plt.show()\n");
 		
 		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test.py";
-		PrintWriter out = new PrintWriter(pathname);
-		out.write(buffer.toString());
-		out.close();
+		OneLiners.write(buffer.toString(), pathname);
 		
-		PythonScript.exec(pathname, "python", true);
+		PythonScriptUtil.exec(pathname, true);
 		
 	}
 	

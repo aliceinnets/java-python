@@ -1,72 +1,54 @@
 package aliceinnets.python;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class PythonScript {
 	
-	public final static String DEFAULT_PATH = System.getProperty("user.home") + File.separator+PythonScript.class.getSimpleName() + File.separator;
+	String format;
+	List<Supplier<?>> suppliers = new ArrayList<Supplier<?>>();
 	
-	public final static String COMMENT = "#";
-	public final static String LOG_HEADER = COMMENT + "Java exec python script log\n";
-	public final static String LOG_FOOTER = "";
-	
-	
-	public final static boolean exec(String pathname) throws IOException {
-		return exec(pathname, "python", false, false);
+	public PythonScript(String format, Supplier<?>... suppliers) {
+		this.format = format;
+		this.format += "\n";
+		for (Supplier<?> supplier : suppliers) {
+			this.suppliers.add(supplier);
+		}
 	}
 	
-	
-	public final static boolean exec(String pathname, String python) throws IOException {
-		return exec(pathname, python, false, false);
+	public void format(String format, Supplier<?>... suppliers) {
+		this.format += format;
+		this.format += "\n";
+		for (Supplier<?> supplier : suppliers) {
+			this.suppliers.add(supplier);
+		}
 	}
 	
-	
-	public final static boolean exec(String pathname, String python, boolean print) throws IOException {
-		return exec(pathname, python, print, false);
+	public String toString() {
+		Object[] args = new Object[suppliers.size()];
+		for (int i = 0; i < args.length; i++) {
+			args[i] = Parser.toPythonArgs(suppliers.get(i).get());
+		}
+		return String.format(format, args);
 	}
 	
-	
-	public final static boolean exec(String pathname, String python, boolean print, boolean saveLog) throws IOException {
-		StringBuffer log = new StringBuffer();
-		log.append(LOG_HEADER);
-		log.append(COMMENT+"Python starts at "+System.nanoTime()+"\n");
-		log.append(COMMENT+"exec: "+python+" "+pathname+"\n");
-		Process process = Runtime.getRuntime().exec(python+" "+pathname);
+	public static void main(String[] args) {
+		Add add = new Add(1.0, 2.0);
 		
-		String buffer = null;
-		BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		while ((buffer = inputStreamReader.readLine()) != null) {
-			log.append(buffer);
-			if(print) System.out.println(buffer);
-		}
-		inputStreamReader.close();
+		PythonScript script = new PythonScript("plt.plot(%s)", add::eval);
+		System.out.println(script.toString());
 		
-		boolean error = false;
-		BufferedReader errorStreamReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		while ((buffer = errorStreamReader.readLine()) != null) {
-			error = true;
-			log.append(buffer);
-			System.err.println(buffer);
-		}
-		errorStreamReader.close();
+		add.setArg1(5.0);
 		
-		process.destroy();
-//		System.exit(0);
-		log.append("\n");
-		log.append(COMMENT+"Python ends at "+System.nanoTime()+"\n");
+		System.out.println(script.toString());
 		
-		if(saveLog) {
-			String[] names = pathname.split(Pattern.quote(File.separator));
-			PrintWriter out = new PrintWriter(new File(DEFAULT_PATH+names[names.length-1]+"_"+System.nanoTime()+".txt"));
-			out.write(log.toString());
-			out.close();
-		}
-		return error;
+		Add add2 = new Add(3.0, new double[] { 1.0, 2.0, 3.0 });
+		
+		script.format("plt.plot(%s, %s)", add::eval, add2::evalArray);
+		
+		System.out.println(script.format);
+		System.out.println(script);
 	}
 
 }

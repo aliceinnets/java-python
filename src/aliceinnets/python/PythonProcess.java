@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class PythonProcessManager {
+public class PythonProcess {
 	
 	Process process;
 	
@@ -14,16 +14,18 @@ public class PythonProcessManager {
 	BufferedReader inputStreamReader;
 	BufferedReader errorStreamReader;
 	
-	public PythonProcessManager() throws IOException { this("python"); }
+	public PythonProcess() { this(PythonScriptUtil.getPythonPath()); }
 	
 	
-	public PythonProcessManager(String python) throws IOException {
-		process = new ProcessBuilder(python).start();
-		
-		writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-		inputStreamReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		errorStreamReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		
+	public PythonProcess(String python) {
+		try {
+			process = new ProcessBuilder(python).start();
+			writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+			inputStreamReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			errorStreamReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -69,7 +71,7 @@ public class PythonProcessManager {
 	
 	
 	public static void main(String[] args) throws Exception {
-		PythonProcessManager python = new PythonProcessManager();
+		PythonProcess python = new PythonProcess();
 //		python.write("import IPython");
 //		python.write("IPython.embed()");
 		python.write("import numpy as np");
