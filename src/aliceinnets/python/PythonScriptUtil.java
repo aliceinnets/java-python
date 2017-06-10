@@ -59,7 +59,7 @@ public class PythonScriptUtil {
 			String[] names = pathname.split(Pattern.quote(File.separator));
 			OneLiners.write(log.toString(), DEFAULT_PATH+names[names.length-1]+"_"+System.nanoTime()+".txt");
 		}
-		return error;
+		return !error;
 	}
 
 }
