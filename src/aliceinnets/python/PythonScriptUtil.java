@@ -44,10 +44,12 @@ public class PythonScriptUtil {
 		log.append(COMMENT+"exec: "+python+" "+pathname+"\n");
 		
 		String[] results = OneLiners.exec(python+" "+pathname);
+		if(print) System.out.println(results[0]);
 		
 		boolean error = false;
 		if(!results[1].equals("")) {
 			error = true;
+			System.out.println(results[1]);
 		}
 		
 		log.append(results[0]);
