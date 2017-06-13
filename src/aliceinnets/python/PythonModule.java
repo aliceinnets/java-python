@@ -27,12 +27,15 @@ public class PythonModule {
 	
 	
 	protected String pathname;
-	protected StringBuffer script;
+	protected StringBuffer header = new StringBuffer(DEFAULT_HEADER);
+	protected StringBuffer script = new StringBuffer();
+	protected String python = PythonScriptUtil.getPythonPath();
 	protected boolean print = true;
+	protected boolean saveLog = false;
 	
 	
 	public PythonModule() {
-		this(PythonScriptUtil.DEFAULT_PATH+System.nanoTime()+".py", null);
+		this(PythonScriptUtil.DEFAULT_PATH+System.currentTimeMillis()+".py", null);
 	}
 	
 	
@@ -46,13 +49,12 @@ public class PythonModule {
 			this.pathname = pathname;
 		}
 		
-		this.script = new StringBuffer(DEFAULT_HEADER);
-		write(COMMENT+"generated at "+System.nanoTime());
+		this.header.append(COMMENT+"generated at "+OneLiners.date()); 
 		if(header != null && !header.equals("")) {
-			this.script.append(COMMENT+header);
+			this.header.append(COMMENT+header);
 		}
+		this.header.append("\n");
 		
-		write();
 		init();
 	}
 	
@@ -65,13 +67,13 @@ public class PythonModule {
 	public void save() {
 		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
 		OneLiners.mkdirs(path);
-		OneLiners.write(script.toString(), pathname);
+		OneLiners.write(header.toString()+script.toString(), pathname);
 	}
 	
 	
 	public void saveAndExec() {
 		save();
-		PythonScriptUtil.exec(pathname, print);
+		PythonScriptUtil.exec(python, pathname, print, saveLog);
 	}
 	
 	
@@ -82,8 +84,8 @@ public class PythonModule {
 	
 	
 	public void init() {
-		script.append("import numpy as np\n");
-		script.append("import matplotlib.pyplot as plt\n");
+		imports("numpy", "np");
+		imports("matplotlib.pyplot", "plt");
 	}
 	
 	
@@ -106,6 +108,24 @@ public class PythonModule {
 		}
 		return this;
 	}
+	
+	
+	public PythonModule imports(String module) {
+		header.append(String.format("import %s\n", module));
+		return this;
+	}
+	
+	
+	public PythonModule imports(String module, String name) {
+		header.append(String.format("import %s as %s\n", module, name));
+		return this;
+	}
+	
+	
+	public PythonModule imports(String from, String module, String name) {
+		header.append(String.format("from %s import %s as %s\n", from, module, name));
+		return this;
+	}
 
 
 	public String getPathname() {
@@ -119,7 +139,27 @@ public class PythonModule {
 
 
 	public String getScript() {
-		return script.toString();
+		return header.toString()+script.toString();
+	}
+
+
+	public boolean isPrint() {
+		return print;
+	}
+
+
+	public void setPrint(boolean print) {
+		this.print = print;
+	}
+
+
+	public boolean isSaveLog() {
+		return saveLog;
+	}
+
+
+	public void setSaveLog(boolean saveLog) {
+		this.saveLog = saveLog;
 	}
 	
 

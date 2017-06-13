@@ -1,8 +1,6 @@
 package aliceinnets.python;
 
 import java.io.File;
-import java.util.regex.Pattern;
-
 import aliceinnets.util.OneLiners;
 
 public class PythonScriptUtil {
@@ -11,7 +9,7 @@ public class PythonScriptUtil {
 	public final static String PYTHON_PATH_FILE = DEFAULT_PATH + "PYTHON_PATH.txt";
 	
 	public final static String COMMENT = "#";
-	public final static String LOG_HEADER = COMMENT + "Java exec python script log\n";
+	public final static String LOG_HEADER = COMMENT + "logging from " + PythonScriptUtil.class.getName()+"\n";
 	public final static String LOG_FOOTER = "";
 	
 	
@@ -38,28 +36,28 @@ public class PythonScriptUtil {
 	
 	
 	public final static boolean exec(String python, String pathname, boolean print, boolean saveLog) {
-		StringBuffer log = new StringBuffer();
-		log.append(LOG_HEADER);
-		log.append(COMMENT+"Python starts at "+System.nanoTime()+"\n");
-		log.append(COMMENT+"exec: "+python+" "+pathname+"\n");
-		
+		long time = System.currentTimeMillis();
 		String[] results = OneLiners.exec(python+" "+pathname);
-		if(print) System.out.println(results[0]);
+		if(print && !results[0].equals("")) System.out.println(results[0]);
 		
 		boolean error = false;
 		if(!results[1].equals("")) {
 			error = true;
-			System.out.println(results[1]);
+			System.err.println(results[1]);
 		}
 		
-		log.append(results[0]);
-		log.append(results[1]);
-		log.append("\n");
-		log.append(COMMENT+"Python ends at "+System.nanoTime()+"\n");
-		
 		if(saveLog) {
-			String[] names = pathname.split(Pattern.quote(File.separator));
-			OneLiners.write(log.toString(), DEFAULT_PATH+names[names.length-1]+"_"+System.nanoTime()+".txt");
+			StringBuffer log = new StringBuffer();
+			log.append(LOG_HEADER);
+			log.append(COMMENT+String.format(" exec: %s %s\n", python, pathname));
+			log.append(COMMENT+String.format(" started at %s\n", OneLiners.date(time)));
+			log.append(COMMENT+String.format(" ended at %s\n", OneLiners.date()));
+			log.append("\n");
+			
+			log.append(results[0]);
+			log.append(results[1]);
+			
+			OneLiners.write(log.toString(), DEFAULT_PATH+OneLiners.getFileName(pathname)+"_"+time+".txt");
 		}
 		return !error;
 	}
