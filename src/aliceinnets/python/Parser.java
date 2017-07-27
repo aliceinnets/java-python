@@ -107,6 +107,7 @@ public class Parser {
 					}
 				}
 			}
+			// TODO enum case
 			return String.valueOf(obj);
 		} else {
 			StringBuffer buffer = new StringBuffer();
