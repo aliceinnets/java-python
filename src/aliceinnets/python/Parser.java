@@ -4,7 +4,13 @@ import java.lang.reflect.Array;
 
 public class Parser {
 	
-	
+	/**
+	 * Convert java object to multiple numpy expressions, 
+	 * e.g. new double[] { Double.NaN, 0.0 } will be np.nan, 0.0.
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public final static String toPythonArgs(Object obj) {
 		if(obj.getClass().isArray()) {
 			Class<?> componentType = obj.getClass().getComponentType();
@@ -24,7 +30,13 @@ public class Parser {
 		}
 	}
 	
-	
+	/**
+	 * Convert java object to a single numpy expression, 
+	 * e.g. new double[] { Double.NaN, 0.0 } will be [np.nan, 0.0]. 
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public final static String toPythonExpression(Object obj) {
 		if(obj == null) {
 			return "";
@@ -107,7 +119,6 @@ public class Parser {
 					}
 				}
 			}
-			// TODO enum case
 			return String.valueOf(obj);
 		} else {
 			StringBuffer buffer = new StringBuffer();
