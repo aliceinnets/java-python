@@ -12,21 +12,11 @@ public class Parser {
 	 * @return
 	 */
 	public final static String toPythonArgs(Object obj) {
-		if(obj.getClass().isArray()) {
-			Class<?> componentType = obj.getClass().getComponentType();
-			if(!componentType.equals(Object.class)) {
-				return toPythonExpression(obj);
-			} else {
-				StringBuffer buffer = new StringBuffer();
-				for(int i=0;i<Array.getLength(obj)-1;++i) {
-					buffer.append(toPythonExpression(Array.get(obj, i)));
-					buffer.append(", ");
-				}
-				buffer.append(toPythonExpression(Array.get(obj, Array.getLength(obj)-1)));
-				return buffer.toString(); 
-			}
+		String expression = toPythonExpression(obj);
+		if (expression.startsWith("[") && expression.endsWith("]")) {
+			return expression.substring(1, expression.length()-2);
 		} else {
-			return toPythonExpression(obj);
+			return expression;
 		}
 	}
 	
@@ -113,6 +103,10 @@ public class Parser {
 					
 				} else {
 					if (string.contains("=")) {
+						
+					} if(string.startsWith("(") && string.endsWith(")")) {
+						
+					} else if(string.startsWith("[") && string.endsWith("]")) {
 						
 					} else {
 						return "'"+String.valueOf(obj)+"'";
