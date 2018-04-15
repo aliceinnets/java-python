@@ -37,7 +37,7 @@ public class PythonModule {
 	protected boolean saveLog = false;
 	
 	
-	public PythonModule() {	}
+	public PythonModule() {	this(null); }
 	
 	
 	public PythonModule(String pathname) {
