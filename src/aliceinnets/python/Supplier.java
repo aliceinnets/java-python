@@ -19,7 +19,7 @@ public class Supplier<T> {
 		this.supplier = null;
 	}
 	
-	public Object eval() {
+	public Object get() {
 		if (function == null) {
 			return supplier.get();
 		} else {
