@@ -1,11 +1,10 @@
 package aliceinnets.python;
 
-import java.io.File;
 import aliceinnets.util.OneLiners;
 
 public class PythonScriptUtil {
 	
-	public final static String DEFAULT_PATH = System.getProperty("user.home") + File.separator + "PythonScript" + File.separator;
+	public final static String DEFAULT_PATH = System.getProperty("user.home") + "/PythonScript/";
 	public final static String PYTHON_PATH_FILE = DEFAULT_PATH + "PYTHON_PATH.txt";
 	
 	public final static String COMMENT = "#";

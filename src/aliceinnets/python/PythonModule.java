@@ -1,6 +1,8 @@
 package aliceinnets.python;
 
 import java.io.File;
+import java.util.ArrayList;
+
 import aliceinnets.util.OneLiners;
 
 /**
@@ -22,110 +24,119 @@ import aliceinnets.util.OneLiners;
  */
 public class PythonModule {
 	
-	public final static String COMMENT = "#";
-	public final static String DEFAULT_HEADER = COMMENT + "Auto generated python script\n";
+	public final static String COMMENT_PREFIX = "#";
+	public final static String DEFAULT_HEADLINE = "Auto generated python script";
+	public final static String DEFAULT_STARTLINE = "Script body starts";
 	
 	
 	protected String pathname;
-	protected StringBuffer header = new StringBuffer(DEFAULT_HEADER);
-	protected StringBuffer script = new StringBuffer();
+	protected ArrayList<String> lineScript = new ArrayList<String>();
+	
 	protected String python = PythonScriptUtil.getPythonPath();
 	protected boolean print = true;
 	protected boolean saveLog = false;
 	
 	
-	public PythonModule() {
-		this(PythonScriptUtil.DEFAULT_PATH+System.currentTimeMillis()+".py", null);
-	}
+	public PythonModule() {	}
 	
 	
 	public PythonModule(String pathname) {
-		this(pathname, null);
-	}
-	
-	
-	public PythonModule(String pathname, String header) {
 		if(pathname != null && !pathname.equals("")) {
 			this.pathname = pathname;
+		} else {
+			this.pathname = PythonScriptUtil.DEFAULT_PATH+System.currentTimeMillis()+".py";
 		}
 		
-		this.header.append(COMMENT+"generated at "+OneLiners.date()); 
-		if(header != null && !header.equals("")) {
-			this.header.append(COMMENT+header);
-		}
-		this.header.append("\n");
+		comment(DEFAULT_HEADLINE);
+		comment("generated at "+OneLiners.date());
+		write();
+		write();
 		
-		init();
+		comment(DEFAULT_STARTLINE);
+		write();
+		
+		imports("numpy", "np");
+		imports("matplotlib.pyplot", "plt");
+		
 	}
 	
 	
-	public static void setPythonPath(String pythonPath) {
-		PythonScriptUtil.setPythonPath(pythonPath);
+	public String getLine(int lineNumber) {
+		return lineScript.get(lineNumber);
 	}
 	
 	
-	public void save() {
-		// TODO debug!
-		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
+	public int getStartlineNumber() {
+		return lineScript.indexOf(COMMENT_PREFIX + DEFAULT_STARTLINE);
+	}
+	
+	
+	public void write() {
+		lineScript.add("");
+	}
+	
+	
+	public void write(String line) {
+		lineScript.add(line);
+	}
+	
+	
+	public void write(int lineNumber, String line) {
+		lineScript.add(lineNumber, line);
+	}
+	
+	
+	public void comment() {
+		write(COMMENT_PREFIX);
+	}
+	
+	
+	public void comment(String line) {
+		write(COMMENT_PREFIX + line);
+	}
+	
+	
+	public void comment(int lineNumber, String line) {
+		write(lineNumber, COMMENT_PREFIX + line);
+	}
+	
+	
+	public void imports(String module) {
+		write(getStartlineNumber()-1, String.format("import %s", module));
+	}
+	
+	
+	public void imports(String module, String name) {
+		write(getStartlineNumber()-1, String.format("import %s as %s", module, name));
+	}
+	
+	
+	public void imports(String from, String module, String name) {
+		write(getStartlineNumber()-1, String.format("from %s import %s as %s\n", from, module, name));
+	}
+	
+	
+	public void saveScript(String pathname) {
+		String path = pathname.substring(0, pathname.lastIndexOf("/"));
 		OneLiners.mkdirs(path);
-		OneLiners.write(header.toString()+script.toString(), pathname);
+		OneLiners.write(getScript(), pathname);
 	}
 	
 	
-	public void saveAndExec() {
-		save();
+	public void saveScript() {
+		saveScript(pathname);
+	}
+	
+	
+	public void exec(String pathname) {
+		saveScript(pathname);
 		PythonScriptUtil.exec(python, pathname, print, saveLog);
+		if (pathname.startsWith(PythonScriptUtil.DEFAULT_PATH)) new File(pathname).delete();
 	}
 	
 	
 	public void exec() {
-		saveAndExec();
-		new File(pathname).delete();
-	}
-	
-	
-	public void init() {
-		imports("numpy", "np");
-		imports("matplotlib.pyplot", "plt");
-	}
-	
-	
-	public PythonModule write() {
-		this.script.append("\n");
-		return this;
-	}
-	
-	
-	public PythonModule write(String script) {
-		this.script.append(script);
-		this.script.append("\n");
-		return this;
-	}
-	
-	
-	public PythonModule write(String... scripts) {
-		for(String script : scripts) {
-			write(script);
-		}
-		return this;
-	}
-	
-	
-	public PythonModule imports(String module) {
-		header.append(String.format("import %s\n", module));
-		return this;
-	}
-	
-	
-	public PythonModule imports(String module, String name) {
-		header.append(String.format("import %s as %s\n", module, name));
-		return this;
-	}
-	
-	
-	public PythonModule imports(String from, String module, String name) {
-		header.append(String.format("from %s import %s as %s\n", from, module, name));
-		return this;
+		exec(pathname);
 	}
 
 
@@ -137,10 +148,15 @@ public class PythonModule {
 	public void setPathname(String pathname) {
 		this.pathname = pathname;
 	}
+	
+	
+	public ArrayList<String> getLineScript() {
+		return lineScript;
+	}
 
 
 	public String getScript() {
-		return header.toString()+script.toString();
+		return String.join("\n", lineScript);
 	}
 
 
@@ -163,5 +179,9 @@ public class PythonModule {
 		this.saveLog = saveLog;
 	}
 	
+	
+	public static void setPythonPath(String pythonPath) {
+		PythonScriptUtil.setPythonPath(pythonPath);
+	}
 
 }

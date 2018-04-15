@@ -32,7 +32,9 @@ public class Test extends TestCase {
 	}
 	
 	public void testPythonModule() {
-		PythonModule module = new PythonModule();
+		String pathname = new File("").getAbsolutePath()+"/"+"script.py";
+		System.out.println(pathname);
+		PythonModule module = new PythonModule(pathname);
 		module.setSaveLog(true);
 		
 		module.write("print('hello, world')");
@@ -40,7 +42,7 @@ public class Test extends TestCase {
 		module.write("print(a)");
 		module.write("print(b)");
 		
-		module.saveAndExec();
+		module.exec();
 	}
 
 }
