@@ -1,19 +1,19 @@
 package aliceinnets.python;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
-public class Function<T> {
+public class Supplier<T> {
 	
-	Supplier<Object> supplier;
-	java.util.function.Function<T, Object> function;
+	java.util.function.Supplier<Object> supplier;
+	Function<T, Object> function;
 	T args;
 	
-	public Function(Supplier<Object> supplier) {
+	public Supplier(java.util.function.Supplier<Object> supplier) {
 		this.supplier = supplier;
 		this.function = null;
 	}
 	
-	public Function(java.util.function.Function<T, Object> function, T arg) {
+	public Supplier(Function<T, Object> function, T arg) {
 		this.function = function;
 		this.args = arg;
 		this.supplier = null;
