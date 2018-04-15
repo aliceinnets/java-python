@@ -24,7 +24,7 @@ public class Test extends TestCase {
 		buffer.append("plt.savefig(r'"+PythonScriptUtil.DEFAULT_PATH+"/test.pdf')");
 //		buffer.append("plt.show()\n");
 		
-		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test.py";
+		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test1.py";
 		OneLiners.write(buffer.toString(), pathname);
 		
 		PythonScriptUtil.exec(pathname, true);
@@ -32,8 +32,9 @@ public class Test extends TestCase {
 	}
 	
 	public void testPythonModule() {
-		String pathname = new File("").getAbsolutePath()+"/"+"script.py";
+		String pathname = "test"+File.separator+Test.class.getPackage().getName().replace(".", File.separator)+File.separator+"test2.py";
 		System.out.println(pathname);
+		
 		PythonModule module = new PythonModule(pathname);
 		module.setSaveLog(true);
 		
