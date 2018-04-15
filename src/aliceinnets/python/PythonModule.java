@@ -117,7 +117,7 @@ public class PythonModule {
 	
 	
 	public void saveScript(String pathname) {
-		String path = pathname.substring(0, pathname.lastIndexOf("/"));
+		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
 		OneLiners.mkdirs(path);
 		OneLiners.write(getScript(), pathname);
 	}

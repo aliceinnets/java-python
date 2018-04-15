@@ -1,5 +1,6 @@
 package aliceinnets.python;
 
+import java.io.File;
 import java.lang.reflect.Array;
 
 public class Parser {
@@ -114,8 +115,8 @@ public class Parser {
 				} else if (string.startsWith("\"\"\"") && string.endsWith("\"\"\"")) {
 
 				} else {
-					if (string.contains("\\")) {
-
+					if (string.contains(File.separator)) {
+						return "r'" + String.valueOf(obj) + "'";
 					} else if (string.contains("=")) {
 
 					} else if (string.startsWith("(") && string.endsWith(")")) {
