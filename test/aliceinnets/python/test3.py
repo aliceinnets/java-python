@@ -1,5 +1,5 @@
 #Auto generated python script
-#generated at Sun Apr 15 05:30:21 PDT 2018
+#generated at Sun Apr 15 07:08:02 PDT 2018
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,6 +9,6 @@ import matplotlib.pyplot as plt
 print('hello, world')
 a = np.linspace(0, 10, 100)
 print(5.0)
-c = np.linsapce(1.0, 5.0, )
+c = np.linsapce(1.0, 5.0, '')
 print(b)
 print(c)
