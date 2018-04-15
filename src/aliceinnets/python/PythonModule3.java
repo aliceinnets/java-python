@@ -2,6 +2,7 @@ package aliceinnets.python;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import aliceinnets.util.OneLiners;
 
@@ -16,28 +17,28 @@ import aliceinnets.util.OneLiners;
  * @author alice &lt;aliceinnets[at]gmail.com&gt;
  *
  */
-public class PythonModule {
+public class PythonModule3 {
 	
 	public final static String COMMENT_PREFIX = "#";
-	public final static String DEFAULT_HEADLINE = "#Auto generated python script";
-	public final static String DEFAULT_STARTLINE = "#Script body starts";
+	public final static PythonFormat DEFAULT_HEADLINE = new PythonFormat("#Auto generated python script");
+	public final static PythonFormat DEFAULT_STARTLINE = new PythonFormat("#Script body starts");
 	
 	public final static String NUMPY = "np";
 	public final static String PYPLOT = "plt";
 	
 	
 	protected String pathname;
-	protected ArrayList<String> lineScript = new ArrayList<String>();
+	protected ArrayList<PythonFormat> lineScript = new ArrayList<PythonFormat>();
 	
 	protected String python = PythonScriptUtil.getPythonPath();
 	protected boolean print = true;
 	protected boolean saveLog = false;
 	
 	
-	public PythonModule() {	this(null); }
+	public PythonModule3() {	this(null); }
 	
 	
-	public PythonModule(String pathname) {
+	public PythonModule3(String pathname) {
 		if(pathname != null && !pathname.equals("")) {
 			this.pathname = pathname;
 		} else {
@@ -59,7 +60,7 @@ public class PythonModule {
 	
 	
 	public String getLine(int lineNumber) {
-		return lineScript.get(lineNumber);
+		return lineScript.get(lineNumber).toString();
 	}
 	
 	
@@ -74,12 +75,22 @@ public class PythonModule {
 	
 	
 	public void write(String line) {
-		lineScript.add(line);
+		write(new PythonFormat(line));
 	}
 	
 	
 	public void write(int lineNumber, String line) {
-		lineScript.add(lineNumber, line);
+		write(lineNumber, new PythonFormat(line));
+	}
+	
+	
+	public void write(PythonFormat format) {
+		lineScript.add(format);
+	}
+	
+	
+	public void write(int lineNumber, PythonFormat format) {
+		lineScript.add(lineNumber, format);
 	}
 	
 	
@@ -122,13 +133,13 @@ public class PythonModule {
 	}
 	
 	
-	public ArrayList<String> getLineScript() {
+	public ArrayList<PythonFormat> getLineScript() {
 		return lineScript;
 	}
 
 
 	public String getScript() {
-		return String.join("\n", lineScript);
+		return String.join("\n", lineScript.stream().map(PythonFormat::toString).collect(Collectors.toList()));
 	}
 
 

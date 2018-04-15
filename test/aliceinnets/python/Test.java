@@ -35,15 +35,37 @@ public class Test extends TestCase {
 		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test2.py";
 		System.out.println(pathname);
 		
-		PythonModule module = new PythonModule(pathname);
+		Binary binary = new Binary();
+		binary.a = 10;
+		binary.b = 5;
+		
+		PythonModule3 module = new PythonModule3(pathname);
 		module.setSaveLog(true);
 		
 		module.write("print('hello, world')");
 		module.write("a = np.linspace(0, 10, 100)");
-		module.write("print(a)");
+		module.write(new PythonFormat("print(%s)", new Supplier(binary::sum)));
+		module.write(new PythonFormat("c = np.linsapce(%s, %s, %s)", 1.0, new Supplier(binary::sum), Parser.toPythonExpression(null)));
 		module.write("print(b)");
+		module.write("print(c)");
 		
 		module.exec();
+		
+		binary.b = -5;
+		
+		String pathname3 = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3.py";
+		System.out.println(pathname);
+		
+		module.exec(pathname3);
+	}
+	
+	
+	public static class Binary {
+		double a, b;
+		
+		public double sum() {
+			return a+b;
+		}
 	}
 
 }
