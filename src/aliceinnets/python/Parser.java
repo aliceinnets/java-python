@@ -128,7 +128,7 @@ public class Parser {
 					}
 				} 
 			} else if (obj instanceof Supplier) {
-				return toPythonExpression(((Supplier) obj).eval());
+				return toPythonExpression(((Supplier) obj).get());
 			}
 			return String.valueOf(obj);
 		} else {
