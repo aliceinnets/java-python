@@ -55,8 +55,8 @@ public class PythonModule {
 		comment(DEFAULT_STARTLINE);
 		write();
 		
-		imports("numpy", "np");
-		imports("matplotlib.pyplot", "plt");
+		imports("import numpy as np");
+		imports("import matplotlib.pyplot as plt");
 		
 	}
 	
@@ -101,18 +101,8 @@ public class PythonModule {
 	}
 	
 	
-	public void imports(String module) {
-		write(getStartlineNumber()-1, String.format("import %s", module));
-	}
-	
-	
-	public void imports(String module, String name) {
-		write(getStartlineNumber()-1, String.format("import %s as %s", module, name));
-	}
-	
-	
-	public void imports(String from, String module, String name) {
-		write(getStartlineNumber()-1, String.format("from %s import %s as %s\n", from, module, name));
+	public void imports(String line) {
+		write(getStartlineNumber()-1, line);
 	}
 	
 	
