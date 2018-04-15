@@ -28,44 +28,74 @@ public class Test extends TestCase {
 		OneLiners.write(buffer.toString(), pathname);
 		
 		PythonScriptUtil.exec(pathname, true);
-		
 	}
 	
 	public void testPythonModule() {
 		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test2.py";
 		System.out.println(pathname);
 		
-		Binary binary = new Binary();
-		binary.a = 10;
-		binary.b = 5;
+		PythonModule module = new PythonModule(pathname);
+		module.setSaveLog(true);
+		
+		module.write("print('hello, world')");
+		module.write("a = np.linspace(0, 10, 100)");
+		module.write(String.format("print(%s)", 5.0));
+		module.write("print(c)");
+		
+		module.exec();
+	}
+	
+	public void testPythonModule3() {
+		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3.py";
+		System.out.println(pathname);
+		
+		Polynomial func = new Polynomial();
+		func.a = 10;
+		func.b = 5;
 		
 		PythonModule3 module = new PythonModule3(pathname);
 		module.setSaveLog(true);
 		
 		module.write("print('hello, world')");
 		module.write("a = np.linspace(0, 10, 100)");
-		module.write(new PythonFormat("print(%s)", new Supplier(binary::sum)));
-		module.write(new PythonFormat("c = np.linsapce(%s, %s, %s)", 1.0, new Supplier(binary::sum), Parser.toPythonExpression(null)));
-		module.write("print(b)");
+		module.write(new PythonFormat("print(%s)", new Function<>(func::xintercept)));
+		module.write(new PythonFormat("c = np.array(%s)", new Function<>(func::eval, OneLiners.linspace(0.0, 1.0, 11))));
 		module.write("print(c)");
 		
 		module.exec();
 		
-		binary.b = -5;
+		func.b = -5;
 		
-		String pathname3 = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3.py";
+		String pathname3 = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3-1.py";
 		System.out.println(pathname);
 		
 		module.exec(pathname3);
 	}
 	
 	
-	public static class Binary {
+	public static class Polynomial {
 		double a, b;
 		
-		public double sum() {
+		public double xintercept() {
 			return a+b;
 		}
+		
+		public double eval(double x) {
+			return a*x+b;
+		}
+		
+		public double[] eval(double[] x) {
+			double[] ret = new double[x.length];
+			for (int i = 0; i < ret.length; i++) {
+				ret[i] = eval(x[i]);
+			}
+			return ret;
+		}
+		
+		public double[] eval(double x1, double x2) {
+			return new double[] { eval(x1), eval(x2) };
+		}
+		
 	}
 
 }

@@ -30,21 +30,13 @@ public class PythonFormat {
 		if (args == null || num == 0) {
 			return format;
 		} else if (num == 1) {
-			if (args instanceof Supplier) {
-				return String.format(format, Parser.toPythonArgs(((Supplier) args).get()));
-			} else {
-				return String.format(format, Parser.toPythonArgs(args));
-			}
+			return String.format(format, Parser.toPythonArgs(args));
 		} else {
 			int length = Array.getLength(args);
 			String[] ret = new String[length];
 			for (int i = 0; i < length; i++) {
 				Object arg = Array.get(args, i);
-				if (arg instanceof Supplier) {
-					ret[i] = Parser.toPythonArgs(((Supplier) arg).get());
-				} else {
-					ret[i] = Parser.toPythonArgs(arg);
-				}
+				ret[i] = Parser.toPythonArgs(arg);
 			}
 			return String.format(format, ret);
 		}
