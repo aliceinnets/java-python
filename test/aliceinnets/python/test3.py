@@ -1,8 +1,9 @@
 #Auto generated python script
-#generated at Sun Apr 15 13:31:49 PDT 2018
+#generated at Tue Apr 17 10:00:59 PDT 2018
 
 import numpy as np
 import matplotlib.pyplot as plt
+import numpy, matplotlib 
 
 #Script body starts
 

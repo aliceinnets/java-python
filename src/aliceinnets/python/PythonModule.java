@@ -2,16 +2,16 @@ package aliceinnets.python;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import aliceinnets.util.OneLiners;
 
 /**
+ * TODO Return python output.
  * 
- * TODO Evaluate python variables.
- * 
- * ex) pythonModule.write("a = np.linspace(0, 10, 100)");
- * pythonModule.get("a");
- * 
+ * pythonModule.write("np.linspace(0, 10, 100)") - > return double array
+ * pythonModule.get("a") - > return a
  * 
  * @author alice &lt;aliceinnets[at]gmail.com&gt;
  *
@@ -52,8 +52,8 @@ public class PythonModule {
 		write(DEFAULT_STARTLINE);
 		write();
 		
-		imports("import numpy as "+NUMPY);
-		imports("import matplotlib.pyplot as "+PYPLOT);
+		importsAs("numpy", NUMPY);
+		importsAs("matplotlib.pyplot", PYPLOT);
 		
 	}
 	
@@ -83,8 +83,40 @@ public class PythonModule {
 	}
 	
 	
-	public void imports(String line) {
+	public void writeHead(String line) {
 		write(getStartlineNumber()-1, line);
+	}
+	
+	
+	public void imports(String module) {
+		writeHead(String.format("import %s", module));
+	}
+	
+	
+	public void imports(String... modules) {
+		Object[] codes = Arrays.asList(modules).stream().map(PythonCode::new).collect(Collectors.toList()).toArray(new Object[modules.length]);
+		writeHead(String.format("import %s ", Parser.toPythonArgs(codes)));
+	}
+	
+	
+	public void importsAs(String module, String name) {
+		writeHead(String.format("import %s as %s", module, name));
+	}
+	
+	
+	public void fromImports(String module, String identifier) {
+		writeHead(String.format("from %s import %s", module, identifier));
+	}
+	
+	
+	public void fromImports(String module, String... identifiers) {
+		Object[] codes = Arrays.asList(identifiers).stream().map(PythonCode::new).collect(Collectors.toList()).toArray(new Object[identifiers.length]);
+		writeHead(String.format("from %s import %s", module, Parser.toPythonArgs(codes)));
+	}
+	
+	
+	public void fromImportsAs(String module, String identifier, String name) {
+		writeHead(String.format("from %s import %s as %s", module, identifier, name));
 	}
 	
 	

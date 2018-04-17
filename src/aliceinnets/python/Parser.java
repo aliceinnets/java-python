@@ -17,9 +17,7 @@ public class Parser {
 			return toPythonExpression(obj);
 		} else if (obj.getClass().isArray()) {
 			Class<?> componentType = obj.getClass().getComponentType();
-			if (!componentType.equals(Object.class)) {
-				return toPythonExpression(obj);
-			} else {
+			if (componentType.equals(Object.class)) {
 				StringBuffer buffer = new StringBuffer();
 				for (int i = 0; i < Array.getLength(obj) - 1; ++i) {
 					buffer.append(toPythonExpression(Array.get(obj, i)));
@@ -27,6 +25,8 @@ public class Parser {
 				}
 				buffer.append(toPythonExpression(Array.get(obj, Array.getLength(obj) - 1)));
 				return buffer.toString();
+			} else {
+				return toPythonExpression(obj);
 			}
 		} else {
 			return toPythonExpression(obj);
@@ -129,6 +129,8 @@ public class Parser {
 				} 
 			} else if (obj instanceof Supplier) {
 				return toPythonExpression(((Supplier) obj).get());
+			} else if (obj instanceof PythonCode) {
+				
 			}
 			return String.valueOf(obj);
 		} else {

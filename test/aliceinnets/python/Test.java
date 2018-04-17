@@ -56,6 +56,8 @@ public class Test extends TestCase {
 		PythonModule3 module = new PythonModule3(pathname);
 		module.setSaveLog(true);
 		
+		module.imports("numpy", "matplotlib");
+		
 		module.write("print('hello, world')");
 		module.write("a = np.linspace(0, 10, 100)");
 		module.write(new PythonFormat("print(%s)", new Supplier<>(func::xintercept)));
