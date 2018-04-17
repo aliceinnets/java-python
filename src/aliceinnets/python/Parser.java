@@ -5,6 +5,16 @@ import java.lang.reflect.Array;
 
 public class Parser {
 	
+	public static final String None = "None";
+	public static final String True = "True";
+	public static final String False = "False";
+	
+	public static final String NUMPY = "np";
+	public static final String NaN = "np.nan";
+	public static final String POSITIVE_INFINITY = "np.inf";
+	public static final String NEGATIVE_INFINITY = "-np.inf";
+	
+	
 	/**
 	 * Convert java object to multiple numpy expressions, 
 	 * e.g. new double[] { Double.NaN, 0.0 } will be np.nan, 0.0.
@@ -42,29 +52,29 @@ public class Parser {
 	 */
 	public final static String toPythonExpression(Object obj) {
 		if (obj == null) {
-			return "";
+			return None;
 		} else if (!obj.getClass().isArray()) {
 			if (obj instanceof Boolean) {
 				if ((boolean) obj) {
-					return "True";
+					return True;
 				} else {
-					return "False";
+					return False;
 				}
 			} else if (obj instanceof Double) {
 				if (obj.equals(Double.NaN)) {
-					return "np.NaN";
+					return NaN;
 				} else if (obj.equals(Double.NEGATIVE_INFINITY)) {
-					return "-np.Inf";
+					return NEGATIVE_INFINITY;
 				} else if (obj.equals(Double.POSITIVE_INFINITY)) {
-					return "np.Inf";
+					return POSITIVE_INFINITY;
 				}
 			} else if (obj instanceof Float) {
 				if (obj.equals(Float.NaN)) {
-					return "np.NaN";
+					return NaN;
 				} else if (obj.equals(Float.NEGATIVE_INFINITY)) {
-					return "-np.Inf";
+					return NEGATIVE_INFINITY;
 				} else if (obj.equals(Float.POSITIVE_INFINITY)) {
-					return "np.Inf";
+					return POSITIVE_INFINITY;
 				}
 			} else if (obj instanceof String) {
 				/**
@@ -128,7 +138,7 @@ public class Parser {
 					}
 				} 
 			} else if (obj instanceof Supplier) {
-				return toPythonExpression(((Supplier) obj).get());
+				return toPythonExpression(((Supplier<?>) obj).get());
 			} else if (obj instanceof PythonCode) {
 				
 			}

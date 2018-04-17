@@ -52,7 +52,7 @@ public class PythonModule3 {
 		write(DEFAULT_STARTLINE);
 		write();
 		
-		importsAs("numpy", NUMPY);
+		importsAs("numpy", Parser.NUMPY);
 		importsAs("matplotlib.pyplot", PYPLOT);
 		
 	}

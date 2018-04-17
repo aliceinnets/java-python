@@ -20,9 +20,14 @@ public class Test extends TestCase {
 		
 		buffer.append("x = np.linspace(0, 10, 100)\n");
 		buffer.append("y = np.sin(x)\n");
-		buffer.append("plt.plot(x, y)\n");
-		buffer.append("plt.savefig(r'"+PythonScriptUtil.DEFAULT_PATH+"/test.pdf')");
-//		buffer.append("plt.show()\n");
+		buffer.append("x[1] = None\n");
+		buffer.append("x[2] = np.inf\n");
+		buffer.append("x[3] = -np.inf\n");
+		buffer.append("x[4] = np.nan\n");
+		buffer.append("print(x)\n");
+		buffer.append("plt.plot(x, y, label=None)\n");
+		buffer.append("plt.savefig(r'"+PythonScriptUtil.DEFAULT_PATH+"/test.pdf')\n");
+		buffer.append("plt.show()\n");
 		
 		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test1.py";
 		OneLiners.write(buffer.toString(), pathname);

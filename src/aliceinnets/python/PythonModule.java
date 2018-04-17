@@ -22,7 +22,6 @@ public class PythonModule {
 	public final static String DEFAULT_HEADLINE = "#Auto generated python script";
 	public final static String DEFAULT_STARTLINE = "#Script body starts";
 	
-	public final static String NUMPY = "np";
 	public final static String PYPLOT = "plt";
 	
 	
@@ -52,7 +51,7 @@ public class PythonModule {
 		write(DEFAULT_STARTLINE);
 		write();
 		
-		importsAs("numpy", NUMPY);
+		importsAs("numpy", Parser.NUMPY);
 		importsAs("matplotlib.pyplot", PYPLOT);
 		
 	}
