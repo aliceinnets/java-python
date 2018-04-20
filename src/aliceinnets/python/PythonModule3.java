@@ -19,15 +19,15 @@ import aliceinnets.util.OneLiners;
 public class PythonModule3 {
 	
 	public final static String COMMENT_PREFIX = "#";
-	public final static PythonFormat DEFAULT_HEADLINE = new PythonFormat("#Auto generated python script");
-	public final static PythonFormat DEFAULT_STARTLINE = new PythonFormat("#Script body starts");
+	public final static PythonCode DEFAULT_HEADLINE = new PythonCode("#Auto generated python script");
+	public final static PythonCode DEFAULT_STARTLINE = new PythonCode("#Script body starts");
 	
 	public final static String NUMPY = Parser.NUMPY;
 	public final static String PYPLOT = "plt";
 	
 	
 	protected String pathname;
-	protected ArrayList<PythonFormat> lineScript = new ArrayList<PythonFormat>();
+	protected ArrayList<PythonCode> lineScript = new ArrayList<PythonCode>();
 	
 	protected String python = PythonScriptUtil.getPythonPath();
 	protected boolean print = true;
@@ -74,21 +74,21 @@ public class PythonModule3 {
 	
 	
 	public void write(String line) {
-		write(new PythonFormat(line));
+		write(new PythonCode(line));
 	}
 	
 	
 	public void write(int lineNumber, String line) {
-		write(lineNumber, new PythonFormat(line));
+		write(lineNumber, new PythonCode(line));
 	}
 	
 	
-	public void write(PythonFormat format) {
+	public void write(PythonCode format) {
 		lineScript.add(format);
 	}
 	
 	
-	public void write(int lineNumber, PythonFormat format) {
+	public void write(int lineNumber, PythonCode format) {
 		lineScript.add(lineNumber, format);
 	}
 	
@@ -164,13 +164,13 @@ public class PythonModule3 {
 	}
 	
 	
-	public ArrayList<PythonFormat> getLineScript() {
+	public ArrayList<PythonCode> getLineScript() {
 		return lineScript;
 	}
 
 
 	public String getScript() {
-		return String.join("\n", lineScript.stream().map(PythonFormat::toString).collect(Collectors.toList()));
+		return String.join("\n", lineScript.stream().map(PythonCode::toString).collect(Collectors.toList()));
 	}
 
 

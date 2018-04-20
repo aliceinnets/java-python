@@ -65,8 +65,8 @@ public class Test extends TestCase {
 		
 		module.write("print('hello, world')");
 		module.write("a = np.linspace(0, 10, 100)");
-		module.write(new PythonFormat("print(%s)", new Supplier<>(func::xintercept)));
-		module.write(new PythonFormat("c = np.array(%s)", new Supplier<>(func::eval, OneLiners.linspace(0.0, 1.0, 11))));
+		module.write(new PythonCode("print(%s)", new Supplier<>(func::xintercept)));
+		module.write(new PythonCode("c = np.array(%s)", new Supplier<>(func::eval, OneLiners.linspace(0.0, 1.0, 11))));
 		module.write("print(c)");
 		
 		module.exec();
