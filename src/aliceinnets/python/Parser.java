@@ -117,22 +117,24 @@ public class Parser {
 					string = string.substring(2);
 				}
 				if (string.startsWith("'") && string.endsWith("'")) {
-
+					
 				} else if (string.startsWith("'''") && string.endsWith("'''")) {
-
+					
 				} else if (string.startsWith("\"") && string.endsWith("\"")) {
-
+					
 				} else if (string.startsWith("\"\"\"") && string.endsWith("\"\"\"")) {
-
+					
 				} else {
-					if (string.contains(File.separator)) {
-						return "r'" + String.valueOf(obj) + "'";
-					} else if (string.contains("=")) {
-
+					if (string.contains("=")) {
+						
 					} else if (string.startsWith("(") && string.endsWith(")")) {
-
+						
+					} else if (string.startsWith("{") && string.endsWith("}")) {
+						
 					} else if (string.startsWith("[") && string.endsWith("]")) {
-
+						
+					} else if (string.contains(File.separator)) {
+						return "r'" + String.valueOf(obj) + "'";
 					} else {
 						return "'" + String.valueOf(obj) + "'";
 					}

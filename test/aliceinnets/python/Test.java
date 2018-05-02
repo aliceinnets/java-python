@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 public class Test extends TestCase {
 	
 	public void setUp() {
-		OneLiners.rmdirs(PythonScriptUtil.DEFAULT_PATH);
-		PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
+		//OneLiners.rmdirs(PythonScriptUtil.DEFAULT_PATH);
+		//PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
 	}
 	
 	public void testPythonScript() {
