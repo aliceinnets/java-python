@@ -26,7 +26,7 @@ public class PythonModule3 {
 	public final static String PYPLOT = "plt";
 	
 	
-	protected String pathname;
+	protected File script;
 	protected ArrayList<PythonCode> lineScript = new ArrayList<PythonCode>();
 	
 	protected String python = PythonScriptUtil.getPythonPath();
@@ -38,10 +38,11 @@ public class PythonModule3 {
 	
 	
 	public PythonModule3(String pathname) {
-		if(pathname != null && !pathname.equals("")) {
-			this.pathname = pathname;
+		if (pathname != null && !pathname.equals("")) {
+			script = new File(pathname);
+			OneLiners.mkdirs(script.getParent());
 		} else {
-			this.pathname = PythonScriptUtil.DEFAULT_PATH+System.currentTimeMillis()+".py";
+			script = PythonScriptUtil.createNewFile();
 		}
 		
 		write(DEFAULT_HEADLINE);
@@ -130,37 +131,49 @@ public class PythonModule3 {
 	}
 	
 	
+	public void saveScript(File script) {
+		OneLiners.mkdirs(script.getParent());
+		OneLiners.write(getScript(), script);
+	}
+	
+	
 	public void saveScript(String pathname) {
-		String path = pathname.substring(0, pathname.lastIndexOf(File.separator));
-		OneLiners.mkdirs(path);
-		OneLiners.write(getScript(), pathname);
+		saveScript(new File(pathname));
 	}
 	
 	
 	public void saveScript() {
-		saveScript(pathname);
+		saveScript(script);
+	}
+	
+	
+	public void exec(File script) {
+		saveScript(script);
+		PythonScriptUtil.exec(python, script.getAbsolutePath(), print, saveLog);
+		if (script.getParentFile().equals(new File(PythonScriptUtil.PATH))) {
+			script.delete();
+		}
 	}
 	
 	
 	public void exec(String pathname) {
-		saveScript(pathname);
-		PythonScriptUtil.exec(python, pathname, print, saveLog);
-		if (pathname.startsWith(PythonScriptUtil.DEFAULT_PATH)) new File(pathname).delete();
+		exec(new File(pathname));
 	}
 	
 	
 	public void exec() {
-		exec(pathname);
+		exec(script);
 	}
 
 
 	public String getPathname() {
-		return pathname;
+		return script.getAbsolutePath();
 	}
 
 
 	public void setPathname(String pathname) {
-		this.pathname = pathname;
+		script = new File(pathname);
+		OneLiners.mkdirs(script.getParent());
 	}
 	
 	

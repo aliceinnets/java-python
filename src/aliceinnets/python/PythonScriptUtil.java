@@ -1,21 +1,43 @@
 package aliceinnets.python;
 
 import java.io.File;
+import java.io.IOException;
 
 import aliceinnets.util.OneLiners;
 
 public class PythonScriptUtil {
 	
 	public final static String DEFAULT_PATH = System.getProperty("user.home") + File.separator + "PythonScript" + File.separator;
-	public final static String PYTHON_PATH_FILE = DEFAULT_PATH + "PYTHON_PATH.txt";
-	
 	public final static String COMMENT = "#";
-	public final static String LOG_HEADER = COMMENT + "logging from " + PythonScriptUtil.class.getName()+"\n";
-	public final static String LOG_FOOTER = "";
+	
+	public static String PATH = DEFAULT_PATH;
+	public static String PYTHON_PATH_FILE = DEFAULT_PATH + "PYTHON_PATH.txt";
+	
+	public static String LOG_HEADER = COMMENT + "logging from " + PythonScriptUtil.class.getName()+"\n";
+	public static String LOG_FOOTER = "";
+	
+	
+	public final static File createNewFile() {
+		OneLiners.mkdirs(PATH);
+		
+		long suffix = 0;
+		try {
+			while (true) {
+				File file = new File(PATH, System.currentTimeMillis()+"_"+suffix+".py");
+				if (file.createNewFile()) {
+					return file;
+				}
+				suffix++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	
 	public final static void setPythonPath(String pythonPath) {
-		OneLiners.mkdirs(DEFAULT_PATH);
+		OneLiners.mkdirs(PATH);
 		OneLiners.write(pythonPath, PYTHON_PATH_FILE);
 	}
 	
@@ -58,7 +80,7 @@ public class PythonScriptUtil {
 			log.append(results[0]);
 			log.append(results[1]);
 			
-			OneLiners.write(log.toString(), DEFAULT_PATH+OneLiners.getFileName(pathname)+"_"+time+".txt");
+			OneLiners.write(log.toString(), PATH+OneLiners.getFileName(pathname)+"_"+time+".txt");
 		}
 		return !error;
 	}

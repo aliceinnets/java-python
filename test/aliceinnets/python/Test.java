@@ -1,7 +1,9 @@
 package aliceinnets.python;
 import java.io.File;
+import java.util.stream.IntStream;
 
 import aliceinnets.util.OneLiners;
+import aliceinnets.util.Stopwatch;
 import junit.framework.TestCase;
 
 public class Test extends TestCase {
@@ -26,7 +28,7 @@ public class Test extends TestCase {
 		buffer.append("x[4] = np.nan\n");
 		buffer.append("print(x)\n");
 		buffer.append("plt.plot(x, y, label=None)\n");
-		buffer.append("plt.savefig(r'"+PythonScriptUtil.DEFAULT_PATH+"/test.pdf')\n");
+		buffer.append("plt.savefig(r'"+PythonScriptUtil.PATH+"/test.pdf')\n");
 		buffer.append("plt.show()\n");
 		
 		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test1.py";
@@ -39,15 +41,21 @@ public class Test extends TestCase {
 		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test2.py";
 		System.out.println(pathname);
 		
-		PythonModule module = new PythonModule(pathname);
-		module.setSaveLog(true);
-		
-		module.write("print('hello, world')");
-		module.write("a = np.linspace(0, 10, 100)");
-		module.write(String.format("print(%s)", 5.0));
-		module.write("print(c)");
-		
-		module.exec();
+		IntStream.range(0, 10).parallel().forEach(i -> {
+			Stopwatch stopwatch = new Stopwatch();
+			
+			stopwatch.tic();
+			PythonModule module = new PythonModule();
+			module.setSaveLog(true);
+			
+			module.write("print('hello, world')");
+			module.write("a = np.linspace(0, 10, 100)");
+			module.write(String.format("print(%s)", 5.0));
+			module.write("print(c)");
+			
+			module.exec();
+			stopwatch.toc();
+		});
 	}
 	
 	public void testPythonModule3() {
