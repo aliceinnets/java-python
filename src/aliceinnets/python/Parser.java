@@ -17,12 +17,6 @@ public class Parser {
 	 * assert     else       import     pass
 	 * break      except     in         raise
 	 * 
-	 * label = '';
-	 * 
-	 * "valid_variable_name = ..."
-	 * 
-	 * valid_variabel_name
-	 * A-Z, a-z, 0-9, _
 	 */
 	public final static String[] KEYWORDS = new String[] { 
 			"False", "class", "finally", "is", "return", 
@@ -32,6 +26,7 @@ public class Parser {
 			"as", "elif", "if", "or", "yield", 
 			"assert", "else", "import", "pass", 
 			"break", "except", "in", "raise" };
+	
 	public final static String False = "False";
 	public final static String None = "None";
 	public final static String True = "True";
@@ -108,6 +103,7 @@ public class Parser {
 	public final static String[] STRING_PREFIX = new String[] { 
 			"r", "u", "R", "U", "f", "F", 
 			"fr", "Fr", "fR", "FR", "rf", "rF", "Rf", "RF" };
+	
 	public final static String[] STRING_QUOTATION_MARKS = new String[] { "'", "\"", "'''", "\"\"\"" };
 	
 	
