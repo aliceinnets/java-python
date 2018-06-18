@@ -198,13 +198,12 @@ public class Parser {
 					return string;
 				} else {
 					// Check keyword arguments cases, e.g. label = "Observations".
-					if (string.contains("=")) {
-						String[] strings = string.split("\\s*[=]\\s*");
-						if (strings.length == 2 && isValidName(strings[0])) {
-							return string;
-						}
+					String[] strings = string.split("\\s*[=]\\s*");
+					if (strings.length > 1 && isValidName(strings[0])) {
+						return string;
 					}
 					
+					// Check if the string is a directory.
 					if (string.contains("\\")) {
 						return "r'" + String.valueOf(obj) + "'";
 					} else {
