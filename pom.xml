@@ -39,7 +39,7 @@
 				<version>0.12</version>
 				<configuration>
 					<message>Deployed ${project.name} version ${project.version}</message>  <!-- git commit message -->
-					<noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+					<!-- <noJekyll>true</noJekyll> -->                                  <!-- disable webpage processing -->
 					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory> <!-- matches distribution management repository url above -->
 					<branch>refs/heads/master</branch>                       <!-- remote branch name -->
 					<merge>true</merge>
