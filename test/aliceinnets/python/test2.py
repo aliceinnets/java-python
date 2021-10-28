@@ -1,10 +1,9 @@
-#Auto generated python script
-#generated at Thu May 10 23:20:47 CEST 2018
+#Auto generated python script generated at Fri Oct 29 00:13:59 CEST 2021
+# -*- coding: utf-8 -*-
 
 import numpy as np
 import matplotlib.pyplot as plt
-
-#Script body starts
+import matplotlib
 
 print('hello, world')
 a = np.linspace(0, 10, 100)

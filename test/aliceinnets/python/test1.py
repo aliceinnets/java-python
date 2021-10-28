@@ -9,5 +9,5 @@ x[3] = -np.inf
 x[4] = np.nan
 print(x)
 plt.plot(x, y, label=None)
-plt.savefig(r'/Users/Sapphire/PythonScript//test.pdf')
+plt.savefig(r'test\aliceinnets\python\test.pdf')
 plt.show()

@@ -18,7 +18,7 @@ public class Parser {
 	 * break      except     in         raise
 	 * 
 	 */
-	public final static String[] KEYWORDS = new String[] { 
+	public static final String[] KEYWORDS = new String[] { 
 			"False", "class", "finally", "is", "return", 
 			"None", "continue", "for", "lambda", "try", 
 			"True", "def", "from", "nonlocal", "while", 
@@ -27,12 +27,12 @@ public class Parser {
 			"assert", "else", "import", "pass", 
 			"break", "except", "in", "raise" };
 	
-	public final static String False = "False";
-	public final static String None = "None";
-	public final static String True = "True";
+	public static final String False = "False";
+	public static final String None = "None";
+	public static final String True = "True";
 	
 	
-	public final static boolean isKeyword(String string) {
+	public static final boolean isKeyword(String string) {
 		for (String keyword : KEYWORDS) {
 			if (keyword.equals(string)) {
 				return true;
@@ -42,32 +42,32 @@ public class Parser {
 	}
 	
 	
-	public final static boolean isBoolean(String string) {
+	public static final boolean isBoolean(String string) {
 		return False.equals(string) || True.equals(string);
 	}
 	
 	
-	public final static boolean isNone(String string) {
+	public static final boolean isNone(String string) {
 		return None.equals(string);
 	}
 	
 	
-	public final static boolean isTuple(String string) {
+	public static final boolean isTuple(String string) {
 		return string.startsWith("(") && string.endsWith(")");
 	}
 	
 	
-	public final static boolean isDictionary(String string) {
+	public static final boolean isDictionary(String string) {
 		return string.startsWith("{") && string.endsWith("}");
 	}
 	
 	
-	public final static boolean isList(String string) {
+	public static final boolean isList(String string) {
 		return string.startsWith("[") && string.endsWith("]");
 	}
 	
 	
-	public final static boolean isValidName(String string) {
+	public static final boolean isValidName(String string) {
 		return string.matches("[a-zA-Z_]\\w*") && !isKeyword(string);
 	}
 	
@@ -100,14 +100,14 @@ public class Parser {
 	 * stringescapeseq ::=  "\" <any source character>
 	 * 
 	 */
-	public final static String[] STRING_PREFIX = new String[] { 
+	public static final String[] STRING_PREFIX = new String[] { 
 			"r", "u", "R", "U", "f", "F", 
 			"fr", "Fr", "fR", "FR", "rf", "rF", "Rf", "RF" };
 	
-	public final static String[] STRING_QUOTATION_MARKS = new String[] { "'", "\"", "'''", "\"\"\"" };
+	public static final String[] STRING_QUOTATION_MARKS = new String[] { "'", "\"", "'''", "\"\"\"" };
 	
 	
-	public final static boolean isString(String string) {
+	public static final boolean isString(String string) {
 		for (int i = 0; i < STRING_PREFIX.length; i++) {
 			if (string.startsWith(STRING_PREFIX[i])) {
 				string = string.substring(STRING_PREFIX[i].length());
@@ -122,10 +122,10 @@ public class Parser {
 	}
 	
 	
-	public final static String NUMPY = "np";
-	public final static String NaN = String.format("%s.nan", NUMPY);
-	public final static String POSITIVE_INFINITY = String.format("%s.inf", NUMPY);
-	public final static String NEGATIVE_INFINITY = String.format("-%s.inf", NUMPY);
+	public static final String NUMPY = "np";
+	public static final String NaN = String.format("%s.nan", NUMPY);
+	public static final String POSITIVE_INFINITY = String.format("%s.inf", NUMPY);
+	public static final String NEGATIVE_INFINITY = String.format("-%s.inf", NUMPY);
 	
 	/**
 	 * Convert java object to multiple numpy expressions, 
@@ -134,7 +134,7 @@ public class Parser {
 	 * @param obj
 	 * @return
 	 */
-	public final static String toPythonArgs(Object obj) {
+	public static final String toPythonArgs(Object obj) {
 		if (obj == null) {
 			return toPythonExpression(obj);
 		} else if (obj.getClass().isArray()) {
@@ -162,7 +162,7 @@ public class Parser {
 	 * @param obj
 	 * @return
 	 */
-	public final static String toPythonExpression(Object obj) {
+	public static final String toPythonExpression(Object obj) {
 		if (obj == null) {
 			return None;
 		} else if (!obj.getClass().isArray()) {
