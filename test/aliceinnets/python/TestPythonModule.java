@@ -11,9 +11,11 @@ import aliceinnets.util.Stopwatch;
 
 public class TestPythonModule {
 	
+	static String outputPath = "test" + File.separator + TestPythonModule.class.getPackage().getName().replace(".", File.separator) + File.separator;
+
 	@Before
 	public void setUp() {
-		//OneLiners.rmdirs(PythonScriptUtil.DEFAULT_PATH);
+		//OneLiners.rmdirs(outputPath);
 		//PythonScriptUtil.setPythonPath("/usr/local/bin/python3");
 	}
 	
@@ -33,10 +35,10 @@ public class TestPythonModule {
 		buffer.append("x[4] = np.nan\n");
 		buffer.append("print(x)\n");
 		buffer.append("plt.plot(x, y, label=None)\n");
-		buffer.append("plt.savefig(r'"+"test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test.pdf')\n");
+		buffer.append("plt.savefig(r'"+outputPath+"test.pdf')\n");
 		buffer.append("plt.show()\n");
 		
-		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test1.py";
+		String pathname = outputPath+"test1.py";
 		OneLiners.write(buffer.toString(), pathname);
 		
 		PythonScriptUtil.exec(pathname, true);
@@ -44,7 +46,7 @@ public class TestPythonModule {
 	
 	@Test
 	public void testPythonModule() {
-		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test2.py";
+		String pathname = outputPath+"test2.py";
 		System.out.println(pathname);
 		
 		IntStream.range(0, 10).parallel().forEach(i -> {
@@ -69,7 +71,7 @@ public class TestPythonModule {
 	
 	@Test
 	public void testPythonModule3() {
-		String pathname = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3.py";
+		String pathname = outputPath+"test3.py";
 		System.out.println(pathname);
 		
 		Polynomial func = new Polynomial();
@@ -91,7 +93,7 @@ public class TestPythonModule {
 		
 		func.b = -5;
 		
-		String pathname3 = "test"+File.separator+getClass().getPackage().getName().replace(".", File.separator)+File.separator+"test3-1.py";
+		String pathname3 = outputPath+"test3-1.py";
 		System.out.println(pathname);
 		
 		module.exec(pathname3);
